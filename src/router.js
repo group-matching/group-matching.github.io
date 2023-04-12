@@ -29,7 +29,7 @@ const routes = [
     },
     {
         path: '/signUp',
-        name: 'Session Details',
+        name: 'Sign Up',
         component: signUpPage
     },
     {

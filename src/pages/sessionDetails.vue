@@ -38,6 +38,7 @@
         NavBar
       },
       data: () => ({
+        isMentor: false,
         ecosystem: [
           {
             text: 'vuetify-loader',

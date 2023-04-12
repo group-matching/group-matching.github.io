@@ -187,7 +187,7 @@
                 </v-btn>
             </div>
     </v-container>
-  </template>
+</template>
   
 <style>
   .header {
