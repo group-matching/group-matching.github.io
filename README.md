@@ -1,24 +1,21 @@
-# opra
+# OPRA - An RPI Mentor Matching project
 
-## Project setup
+[ description ]
+
+<hr>
+
+## Initial Project Setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Run Local Development Server
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## GitHub Pages Deployment Steps
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. Run `npm run build`. This creates the /dist directory for deployment.
+2. Run `git add dist && git commit -m 'dist subtree'`. This will add the new /dist folder to the active commit.
+3. Run `git subtree push --prefix dist origin gh-pages`. This pushes the contents of /dist to the *gh-pages* branch.
