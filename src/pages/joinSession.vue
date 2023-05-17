@@ -17,11 +17,13 @@
                         </div>
                     </div>
                     <div class="d-flex justify-center">
-                        <div class="d-flex justify-center" style="width: 50%;">
-                            <v-btn @click="joinAsIndividual()" :disabled="individualJoinCode == '' || individualJoinCode == null" medium color="primary">
-                                Join as Individual
-                            </v-btn>
-                        </div>
+                        <router-link to="/individualSignup">
+                            <div class="d-flex justify-center" style="width: 50%;">
+                                <v-btn @click="joinAsIndividual()" :disabled="individualJoinCode == '' || individualJoinCode == null" medium color="primary">
+                                    Join as Individual
+                                </v-btn>
+                            </div>
+                        </router-link>
                     </div>
                 </v-col>
                 <v-col cols="6">
@@ -37,11 +39,13 @@
                     </div>
 
                     <div class="d-flex justify-center">
-                        <div class="d-flex justify-center" style="width: 50%;">
-                            <v-btn @click="joinAsGroup()" :disabled="groupJoinCode == '' || groupJoinCode == null" medium color="primary">
-                                Join as Group
-                            </v-btn>
-                        </div>
+                        <router-link to="/groupSignup">
+                            <div class="d-flex justify-center" style="width: 50%;">
+                                    <v-btn @click="joinAsGroup()" :disabled="groupJoinCode == '' || groupJoinCode == null" medium color="primary">
+                                        Join as Group
+                                    </v-btn>
+                            </div>
+                        </router-link>
                     </div>
                 </v-col>
             </v-row>
