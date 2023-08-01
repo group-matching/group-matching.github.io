@@ -4,82 +4,30 @@
             <v-toolbar-title class="pb-5 header text-center">
                 Individual Sign Up
             </v-toolbar-title>
-            <v-row justify-content="center" align-content="center" >
-                <v-col cols="12">
-                    <v-card>
-                        <v-row justify-content="center" align-content="center">
-                            <v-col md="6" class="text-center">
-                                <div class="subsectionHeader"  >
-                                     value1
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="flex-start" style="width: 50%;">
-                                        <v-text-field v-model="value1" label="value1" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-center">
-                                </div>
-                                <div class="subsectionHeader">
-                                    value2
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="d-flex justify-center" style="width: 50%;">
-                                        <v-text-field v-model="value2" label="value2" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-center">
-                                </div>
-
-                                <div class="subsectionHeader">
-                                    value3
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="flex-start" style="width: 50%;">
-                                        <v-text-field v-model="value3" label="value3" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                            </v-col>
-                            <v-col md="6" class="text-center">
-                                <div class="subsectionHeader"  >
-                                     value4
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="flex-start" style="width: 50%;">
-                                        <v-text-field v-model="value4" label="value4" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-center">
-                                </div>
-                                <div class="subsectionHeader">
-                                    value5
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="d-flex justify-center" style="width: 50%;">
-                                        <v-text-field v-model="value5" label="value5" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-center">
-                                </div>
-
-                                <div class="subsectionHeader">
-                                    value6
-                                </div>
-                                <div class="d-flex justify-center">
-                                    <div class="flex-start" style="width: 50%;">
-                                        <v-text-field v-model="value6" label="value6" :rules="checkFieldBlankRule" variant="outlined"/>
-                                    </div>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <div class="d-flex justify-center">
-                            <v-btn :disabled=" value1 == ''|| value2 == ''||value3 == ''||value4 == ''||value5 == ''||value6 == '' " color="primary">
-                                Sign Up
-                            </v-btn>
+            <v-col cols="16" justify-content="center">
+                <v-card>
+                    <div class="pa-5 text-center">
+                        <div v-if="selectedIndividualOptions.length == 0" style="font-weight: bold;">
+                            No attributes selected.
+             f           </div>
+                        <div v-if="selectedIndividualOptions.length != 0">
+                            <div v-for="(object, index) in selectedIndividualOptions" :key="index">
+                                <v-row>
+                                    <v-col cols="8">
+                                        {{ object.attribute }}
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-btn @click="removeIndividualAttribute(object.attribute)" small color="error">
+                                            <v-icon color="white">mdi-minus</v-icon>
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </div>
                         </div>
-                    </v-card>
+                    </div>
+                </v-card>
+            </v-col>
 
-                </v-col>
-            </v-row>
     </v-container>
 </template>
 
@@ -92,14 +40,32 @@
         components: {
             NavBar
         },
+        computed: {
+            unselectedIndividualOptions: function () {
+                return this.individualsAttributes.filter(attr => attr.isSelected == false)
+            },
+            selectedIndividualOptions: function () {
+                return this.individualsAttributes.filter(attr => attr.isSelected == true)
+            }
+        },
         data() {
             return {
-                value1: '',
-                value2: '',
-                value3: '',
-                value4: '',
-                value5: '',
-                value6: '',
+                individualsAttributes: [
+                    {attribute: "First Name", isSelected: false },
+                    {attribute: "Last Name", isSelected: false },
+                    {attribute: "GPA", isSelected: false },
+                    {attribute: "RPI Email", isSelected: false },
+                    {attribute: "Phone Number", isSelected: false },
+                    {attribute: "Recommender", isSelected: false },
+                    {attribute: "Applied", isSelected: false },
+                    {attribute: "Compensation", isSelected: false },
+                    {attribute: "Intl. Status", isSelected: false },
+                    {attribute: "Mentored CSCI Previously", isSelected: false },
+                    {attribute: "Mentored Non-CSCI Previously", isSelected: false },
+                    {attribute: "Courses Qualified To Mentor", isSelected: false },
+                    {attribute: "Availability (Time Slots)", isSelected: false },
+                    {attribute: "Course Preference", isSelected: false } 
+                ],
                 checkFieldBlankRule: [
                     value => {
                         if (value != '') return true
@@ -109,6 +75,14 @@
             };
         },
         methods: {
+            removeIndividualAttribute(attr) {
+                for (var i = 0; i < this.individualsAttributes.length; i++){
+                    if (this.individualsAttributes[i].attribute == attr){
+                        this.individualsAttributes[i].isSelected = false;
+                        break;
+                    }
+                }
+            }
         }
     }
 </script>
