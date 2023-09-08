@@ -1,88 +1,140 @@
 <template>
-    <v-container>
-        <NavBar />
-            <v-toolbar-title class="pb-5 header text-center">
-                Individual Sign Up
-            </v-toolbar-title>
-            <v-col cols="16" justify-content="center">
-                <v-card>
-                    <div class="pa-5 text-center">
-                        <div v-if="selectedIndividualOptions.length == 0" style="font-weight: bold;">
-                            No attributes selected.
-             f           </div>
-                        <div v-if="selectedIndividualOptions.length != 0">
-                            <div v-for="(object, index) in selectedIndividualOptions" :key="index">
-                                <v-row>
-                                    <v-col cols="8">
-                                        {{ object.attribute }}
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <v-btn @click="removeIndividualAttribute(object.attribute)" small color="error">
-                                            <v-icon color="white">mdi-minus</v-icon>
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </div>
-                    </div>
-                </v-card>
-            </v-col>
+  <v-container>
+    <NavBar />
+    <v-toolbar-title class="pb-5 header text-center">
+      Individual Sign Up
+    </v-toolbar-title>
+    <v-layout column left>
+      <div class="subsectionHeader my-2">
+        Please select attributes you want to add in:
+      </div>
+      <v-flex xs12>
+        <el-select
+          v-model="selectedValues"
+          multiple
+          filterable
+          placeholder="Select"
+          size="medium"
+          class="custom-select"
+          @remove-tag="handleRemoveTag"
+        >
+          <el-option
+            v-for="(item, index) in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @click.native.stop="toggleInput(index)"
+          >
+          </el-option>
+        </el-select>
+      </v-flex>
+    </v-layout>
+    <br>
 
-    </v-container>
+  
+
+    <br>
+    <v-row justify-content="center" align-content="center">
+      <v-col cols="15">
+        <v-card>
+          <div class="subcardHeader text-center">
+            Form
+          </div>
+          <br>
+          <v-layout wrap style="margin-left: 20px">
+            <v-flex xs12 sm6 v-for="(item, index) in selectedOptions" :key="index">
+              <div v-if="selectedOptions[index].inputType==='number'" class="d-flex justify-center" style="width: 40%;">
+                <v-text-field type="number" :label="selectedOptions[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="selectedOptions[index].inputValue "/>
+              </div>
+              <div v-if="selectedOptions[index].inputType==='string'" class="d-flex justify-center" style="width: 40%;">
+                <v-text-field type="text" :label="selectedOptions[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="selectedOptions[index].inputValue "/>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-card>
+        <br>
+        <v-btn :disabled="isButtonDisabled" medium color="primary" style="margin-left: 535px;">Submit</v-btn>
+      </v-col>
+    </v-row>
+
+  </v-container>
 </template>
 
-
 <script>
-    import NavBar from '@/components/NavBar'
-
-    export default{
-        name: 'individualSignup',
-        components: {
-            NavBar
+import NavBar from '@/components/NavBar'
+export default {
+  components: {
+    NavBar
+  },
+  data() {
+    return {
+      options: [{
+          value: 'GPA',
+          label: 'GPA',
+          showInput: false,
+          inputValue: '',
+          inputType: 'number'
         },
-        computed: {
-            unselectedIndividualOptions: function () {
-                return this.individualsAttributes.filter(attr => attr.isSelected == false)
-            },
-            selectedIndividualOptions: function () {
-                return this.individualsAttributes.filter(attr => attr.isSelected == true)
-            }
+        {
+          value: 'NAME',
+          label: 'NAME',
+          showInput: false,
+          inputValue: '',
+          inputType: 'string'
         },
-        data() {
-            return {
-                individualsAttributes: [
-                    {attribute: "First Name", isSelected: false },
-                    {attribute: "Last Name", isSelected: false },
-                    {attribute: "GPA", isSelected: false },
-                    {attribute: "RPI Email", isSelected: false },
-                    {attribute: "Phone Number", isSelected: false },
-                    {attribute: "Recommender", isSelected: false },
-                    {attribute: "Applied", isSelected: false },
-                    {attribute: "Compensation", isSelected: false },
-                    {attribute: "Intl. Status", isSelected: false },
-                    {attribute: "Mentored CSCI Previously", isSelected: false },
-                    {attribute: "Mentored Non-CSCI Previously", isSelected: false },
-                    {attribute: "Courses Qualified To Mentor", isSelected: false },
-                    {attribute: "Availability (Time Slots)", isSelected: false },
-                    {attribute: "Course Preference", isSelected: false } 
-                ],
-                checkFieldBlankRule: [
-                    value => {
-                        if (value != '') return true
-                        return 'Field can not be left blank.'
-                    },
-                ],
-            };
+        {
+          value: 'AGE',
+          label: 'AGE',
+          showInput: false,
+          inputValue: '',
+          inputType: 'number'
         },
-        methods: {
-            removeIndividualAttribute(attr) {
-                for (var i = 0; i < this.individualsAttributes.length; i++){
-                    if (this.individualsAttributes[i].attribute == attr){
-                        this.individualsAttributes[i].isSelected = false;
-                        break;
-                    }
-                }
-            }
+        {
+          value: 'Gender',
+          label: 'Gender',
+          showInput: false,
+          inputValue: '',
+          inputType: 'string'
+        },
+        {
+          value: 'Major',
+          label: 'Major',
+          showInput: false,
+          inputValue: '',
+          inputType: 'string'
         }
-    }
+      ],
+      selectedValues : [],
+      selectedOptions: [],
+      checkFieldBlankRule: [
+        value => {
+          if (value !== '') return true
+          return ' cant be empty'
+        },
+      ],
+    };
+  },
+  methods: {
+    toggleInput(index) {
+      this.options[index].showInput = !this.options[index].showInput;
+      this.selectedOptions = this.options.filter(option => this.selectedValues.includes(option.value));
+    },
+    handleRemoveTag(tag) {
+      const indexToRemove = this.options.findIndex(item => item.value === tag);
+      this.selectedOptions = this.options.filter(option => this.selectedValues.includes(option.value));
+      if (indexToRemove !== -1) {
+        this.options[indexToRemove].showInput = false;
+        this.options[indexToRemove].inputValue = '';
+        this.selectedValues = this.selectedValues.filter(value => value !== tag);
+      }
+    },
+
+  },
+  computed: {
+    isButtonDisabled() {
+      const selected = this.options.filter(option => this.selectedValues.includes(option.value));
+      return selected.length == 0 || selected.some(option => !option.inputValue);
+    },
+  },
+};
 </script>
