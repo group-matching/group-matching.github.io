@@ -10,6 +10,10 @@ import createSessionPage from '@/pages/createSession.vue'
 import joinSessionPage from '@/pages/joinSession.vue'
 import mySessionsPage from '@/pages/mySessions.vue'
 import viewMatchingPage from '@/pages/viewMatching.vue'
+
+import groupSignup from '@/pages/groupSignup.vue'
+import individualSignup from '@/pages/individualSignup.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -59,6 +63,16 @@ const routes = [
         path: '/viewMatching',
         name: 'View Matching',
         component: viewMatchingPage
+    },
+    {
+        path: '/groupSignup',
+        name: 'groupSignup',
+        component: groupSignup
+    },
+    {
+        path: '/individualSignup',
+        name: 'individualSignup',
+        component: individualSignup
     }
 ]
 
