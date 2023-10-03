@@ -7,14 +7,14 @@
 
     
     <br>
-    <v-row justify-content="center" align-content="center">
-      <v-col cols="15">
+    <v-row >
+      <v-col cols="12">
         <v-card>
           <div class="subcardHeader text-center">
             Group Info
           </div>
           <br>
-          <v-layout wrap style="margin-left: 20px">
+          <v-layout wrap style="margin-left: 20%;">
             <v-flex xs12 sm6 v-for="(item, index) in groupInfo" :key="index">
               <div class="d-flex justify-center" style="width: 40%;">
                 <v-text-field type="string" :label="groupInfo[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="groupInfo[index].inputValue "/>
@@ -25,32 +25,6 @@
       </v-col>
     </v-row>
 
-
-    <v-layout column left>
-      <div class="subsectionHeader my-2">
-        Please select attributes your group want to add in:
-      </div>
-      <v-flex xs12>
-        <el-select
-          v-model="selectedValues"
-          multiple
-          filterable
-          placeholder="Select"
-          size="medium"
-          class="custom-select"
-          @remove-tag="handleRemoveTag"
-        >
-          <el-option
-            v-for="(item, index) in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @click.native.stop="toggleInput(index)"
-          >
-          </el-option>
-        </el-select>
-      </v-flex>
-    </v-layout>
     <br>
     <br>
     <v-row justify-content="center" align-content="center">
@@ -60,16 +34,16 @@
             Form
           </div>
           <br>
-          <v-layout wrap style="margin-left: 20px">
-            <v-flex xs12 sm6 v-for="(item, index) in selectedOptions" :key="index">
-              <div v-if="selectedOptions[index].inputType==='number'" class="d-flex justify-center" style="width: 40%;">
-                <v-text-field type="number" :label="selectedOptions[index].label" :rules="[checkFieldRule(index,selectedOptions[index])]" variant="outlined" v-model="selectedOptions[index].inputValue "/>
+          <v-layout wrap style="margin-left: 20%">
+            <v-flex xs12 sm6 v-for="(item, index) in Form" :key="index">
+              <div v-if="Form[index].inputType==='number'" class="d-flex justify-center" style="width: 40%;">
+                <v-text-field type="number" :label="Form[index].label" :rules="[checkFieldRule(index,Form[index])]" variant="outlined" v-model="Form[index].inputValue "/>
               </div>
-              <div v-if="selectedOptions[index].inputType==='string'" class="d-flex justify-center" style="width: 40%;">
-                <v-text-field type="text" :label="selectedOptions[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="selectedOptions[index].inputValue "/>
+              <div v-if="Form[index].inputType==='string'" class="d-flex justify-center" style="width: 40%;">
+                <v-text-field type="text" :label="Form[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="Form[index].inputValue "/>
               </div>
-              <div v-if="selectedOptions[index].inputType==='boolean'" class="d-flex justify-center" style="width: 40%;">
-                <v-checkbox :label="selectedOptions[index].label" />
+              <div v-if="Form[index].inputType==='boolean'" class="d-flex justify-center" style="width: 40%;">
+                <v-checkbox :label="Form[index].label" v-model="Form[index].inputValue" />
               </div>
             </v-flex>
           </v-layout>
@@ -77,31 +51,6 @@
       </v-col>
     </v-row>
 
-    <v-layout column left>
-      <div class="subsectionHeader my-2">
-        Please select attributes your group want to add in:
-      </div>
-      <v-flex xs12>
-        <el-select
-          v-model="preferenceSelectedValues"
-          multiple
-          filterable
-          placeholder="Select"
-          size="medium"
-          class="custom-select"
-          @remove-tag="handleRemoveTag_preference"
-        >
-          <el-option
-            v-for="(item, index) in preferences"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @click.native.stop="toggleInput_preference(index)"
-          >
-          </el-option>
-        </el-select>
-      </v-flex>
-    </v-layout>
     <br>
     <br>
   <v-row justify-content="center" align-content="center">
@@ -111,23 +60,23 @@
           Preferences
         </div>
         <br>
-        <v-layout wrap style="margin-left: 20px">
-          <v-flex xs12 sm6 v-for="(item, index) in preferenceSelectedOptions" :key="index">
-            <div v-if="preferenceSelectedOptions[index].inputType==='number'" class="d-flex justify-center" style="width: 40%;">
-              <v-text-field type="number" :label="preferenceSelectedOptions[index].label" :rules="[checkFieldRule(index,preferenceSelectedOptions[index])]" variant="outlined" v-model="preferenceSelectedOptions[index].inputValue"/>
+        <v-layout wrap style="margin-left: 20%">
+          <v-flex xs12 sm6 v-for="(item, index) in Preferences" :key="index">
+            <div v-if="Preferences[index].inputType==='number'" class="d-flex justify-center" style="width: 40%;">
+              <v-text-field type="number" :label="Preferences[index].label" :rules="[checkFieldRule(index,Preferences[index])]" variant="outlined" v-model="Preferences[index].inputValue"/>
             </div>
-            <div v-if="preferenceSelectedOptions[index].inputType==='string'" class="d-flex justify-center" style="width: 40%;">
-              <v-text-field type="text" :label="preferenceSelectedOptions[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="preferenceSelectedOptions[index].inputValue"/>
+            <div v-if="Preferences[index].inputType==='string'" class="d-flex justify-center" style="width: 40%;">
+              <v-text-field type="text" :label="Preferences[index].label" :rules="checkFieldBlankRule" variant="outlined" v-model="Preferences[index].inputValue"/>
             </div>
-            <div v-if="preferenceSelectedOptions[index].inputType==='boolean'" class="d-flex justify-center" style="width: 40%;">
-              <v-checkbox :label="preferenceSelectedOptions[index].label" v-model="preferenceSelectedOptions[index].inputValue"/>
+            <div v-if="Preferences[index].inputType==='boolean'" class="d-flex justify-center" style="width: 40%;">
+              <v-checkbox :label="Preferences[index].label" v-model="Preferences[index].inputValue"/>
             </div>
           </v-flex>
         </v-layout>
       </v-card>
       <br>
       <br>
-      <v-btn :disabled="isButtonDisabled" medium color="primary" style="margin-left: 535px;">Submit</v-btn>
+      <v-btn :disabled="isButtonDisabled" medium color="primary" style="margin-left: 535px;" @click="submitForm">Submit</v-btn>
     </v-col>
   </v-row>
  
@@ -145,68 +94,63 @@ export default {
   data() {
     return {
       groupInfo: [{
-          value: 'Group Name',
-          label: 'Group Name',
-          showInput: false,
+          value: 'Name',
+          label: 'Name',
           inputValue: '',
           inputType: 'string'
         },
         {
-          value: 'Code',
-          label: 'Code',
-          showInput: false,
+          value: 'RIN',
+          label: 'RIN',
           inputValue: '',
           inputType: 'string'
-        }
+        },
+        {
+          value: 'RCS',
+          label: 'RCS',
+          inputValue: '',
+          inputType: 'string'
+        },
       ],
-      options: [{
+      Form: [{
           value: 'GPA',
           label: 'GPA',
-          showInput: false,
           inputValue: '',
           inputType: 'number'
         },
         {
           value: 'AGE',
           label: 'AGE',
-          showInput: false,
           inputValue: '',
           inputType: 'number'
         },
         {
           value: 'APPLIED',
           label: 'APPLIED',
-          showInput: false,
           inputValue: false,
           inputType: 'boolean'
         },        
       ],
-      preferences: [{
+      Preferences: [{
           value: 'GPA',
           label: 'GPA2',
-          showInput: false,
           inputValue: '',
           inputType: 'number'
         },
         {
           value: 'AGE2',
           label: 'AGE2',
-          showInput: false,
           inputValue: '',
           inputType: 'number'
         },
         {
-          value: 'APPLIEDD',
-          label: 'APPLIEDD',
-          showInput: false,
+          value: 'APPLIEDD2',
+          label: 'APPLIEDD2',
           inputValue: false,
           inputType: 'boolean'
         },        
       ],
-      preferenceSelectedValues : [],
-      preferenceSelectedOptions: [],        
-      selectedValues : [],
-      selectedOptions: [],
+
       checkFieldBlankRule: [
         
         value => {
@@ -235,40 +179,56 @@ export default {
     };
   },
   methods: {
-    toggleInput(index) {
-      this.options[index].showInput = !this.options[index].showInput;
-      this.selectedOptions = this.options.filter(option => this.selectedValues.includes(option.value));
+    submitForm() {
+      // Handle the form submission logic here...
+      // After submitting, reset the form to its default state
+      this.resetForm();
     },
-    handleRemoveTag(tag) {
-      const indexToRemove = this.options.findIndex(item => item.value === tag);
-      this.selectedOptions = this.options.filter(option => this.selectedValues.includes(option.value));
-      if (indexToRemove !== -1) {
-        this.options[indexToRemove].showInput = false;
-        this.options[indexToRemove].inputValue = '';
-        this.selectedValues = this.selectedValues.filter(value => value !== tag);
-      }
+    resetForm() {
+      // Reset all input values to their defaults
+      this.groupInfo.forEach(item => {
+        item.inputValue = '';
+      });
+
+      this.Form.forEach(item => {
+        if (item.inputType === 'boolean') {
+          item.inputValue = false;
+        } else {
+          item.inputValue = '';
+        }
+      });
+
+      this.Preferences.forEach(item => {
+        if (item.inputType === 'boolean') {
+          item.inputValue = false;
+        } else {
+          item.inputValue = '';
+        }
+      });
+      // window.location.reload();
     },
-    toggleInput_preference(index) {
-      this.preferences[index].showInput = !this.preferences[index].showInput;
-      this.preferenceSelectedOptions = this.preferences.filter(preferences => this.preferenceSelectedValues.includes(preferences.value));
-    },
-    handleRemoveTag_preference(tag) {
-      const indexToRemove = this.preferences.findIndex(item => item.value === tag);
-      this.preferenceSelectedOptions = this.preferences.filter(preferences => this.preferenceSelectedValues.includes(preferences.value));
-      if (indexToRemove !== -1) {
-        this.preferences[indexToRemove].showInput = false;
-        this.preferences[indexToRemove].inputValue = '';
-        this.preferenceSelectedValues = this.preferenceSelectedValues.filter(value => value !== tag);
-      }
+  },
+computed: {
+  isButtonDisabled() {
+    // Check if any groupInfo input is empty
+    if (this.groupInfo.some(item => item.inputValue === '')) {
+      return true;
     }
 
+    // Check if any Form input is empty
+    if (this.Form.some(item => item.inputValue === '')) {
+      return true;
+    }
+
+    // Check if any Preferences input is empty
+    if (this.Preferences.some(item => item.inputValue === '')) {
+      return true;
+    }
+
+    // If none of the input fields are empty, enable the button
+    return false;
   },
-  computed: {
-    isButtonDisabled() {
-      const selected = this.options.filter(option => this.selectedValues.includes(option.value));
-      const selected_preference = this.preferences.filter(preferences => this.preferenceSelectedValues.includes(preferences.value));
-      return selected_preference.length == 0 || selected.length == 0 || selected.some(option => option.inputType !== 'boolean' && !option.inputValue) || selected_preference.some(preferences => preferences.inputType !== 'boolean' && !preferences.inputValue) || this.groupInfo.some(item => item.inputValue.trim() === '');
-    },
-  },
+},
+
 };
 </script>
