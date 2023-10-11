@@ -26,7 +26,7 @@
 
             <v-row justify-content="center" align-content="center">
                 <v-col cols="8">
-                    <v-card>
+                    <v-card style="height:817px">
                         <div class="subcardHeader text-center">
                             Session
                         </div>
@@ -134,9 +134,30 @@
                                     </div>
                                 </v-col>
                             </div>
+                            <div class="pa-5 d-flex justify-center">
+                                <v-col cols="5">
+                                    <div class="d-flex justify-center">
+                                        <div >
+                                            <v-text-field v-model="newGroupAttribute" label="New Attribute" />
+                                        </div>
+                                    </div>
+                                </v-col>
+                                <v-col cols="5">
+                                    <div class="d-flex justify-center">
+                                        <v-select v-model="newGroupAttributeType" :items="['int', 'boolean', 'string']" label="Type" />
+                                    </div>
+                                </v-col>
+                                <v-col cols="2">
+                                    <div class="pt-5 pb-5 d-flex justify-center">
+                                        <v-btn @click="addNewGroupAttribute(newGroupAttribute)" :disabled="this.newGroupAttribute=='' || this.newGroupAttributeType==''" color="primary">
+                                            <v-icon size="3vh" color="white">mdi-plus</v-icon>
+                                        </v-btn>
+                                    </div>
+                                </v-col>
+                            </div>
                         </v-row>
-                    </v-card>
 
+                    </v-card>
                     <v-card class="mb-10">
                         <div class="subcardHeader text-center">
                             Individuals
@@ -172,6 +193,27 @@
                                 <v-col cols="2">
                                     <div class="pt-5 pb-5 d-flex justify-center">
                                         <v-btn @click="addIndividualAttribute()" :disabled="unselectedIndividualOptions.length == 0 || individualsDropdown_currentlySelected == null" color="primary">
+                                            <v-icon size="3vh" color="white">mdi-plus</v-icon>
+                                        </v-btn>
+                                    </div>
+                                </v-col>
+                            </div>
+                            <div class="pa-5 d-flex justify-center">
+                                <v-col cols="5">
+                                    <div class="d-flex justify-center">
+                                        <div >
+                                            <v-text-field v-model="newIndividualAttribute" label="New Attribute" />
+                                        </div>
+                                    </div>
+                                </v-col>
+                                <v-col cols="5">
+                                    <div class="d-flex justify-center">
+                                        <v-select v-model="newIndividualAttributeType" :items="['int', 'boolean', 'string']" label="Type" />
+                                    </div>
+                                </v-col>
+                                <v-col cols="2">
+                                    <div class="pt-5 pb-5 d-flex justify-center">
+                                        <v-btn @click="addNewIndividualAttribute(newIndividualAttribute)" :disabled="this.newIndividualAttribute=='' || this.newIndividualAttributeType==''" color="primary">
                                             <v-icon size="3vh" color="white">mdi-plus</v-icon>
                                         </v-btn>
                                     </div>
@@ -255,6 +297,10 @@
                     { method: 'Method 2', isChecked: false },
                     { method: 'Method 3', isChecked: false }
                 ],
+                newGroupAttribute: '',
+                newGroupAttributeType: '',
+                newIndividualAttribute: '',
+                newIndividualAttributeType: '',
                 maxIndividuals: 1,
                 maxGroups: 1,
                 limitGroupCapacity: false,
@@ -282,7 +328,9 @@
                     {attribute: "Courses Qualified To Mentor", isSelected: false },
                     {attribute: "Availability (Time Slots)", isSelected: false },
                     {attribute: "Course Preference", isSelected: false } 
-                ]
+                ],
+                userDefineGroupAttributes: [],
+                userDefineIndividualAttributes: [],
             };
         },
         methods: {
@@ -303,6 +351,26 @@
                     }
                 }
                 this.individualsDropdown_currentlySelected = null;
+            },
+            addNewGroupAttribute(newAttribute){
+                const NewGroupAttribute = {
+                attribute: newAttribute,
+                isSelected: false,            
+                };
+                this.groupsAttributes.push(NewGroupAttribute)
+                this.userDefineGroupAttributes.push(NewGroupAttribute)
+                this.newGroupAttribute = ''
+                this.newGroupAttributeType = ''
+            },
+            addNewIndividualAttribute(newAttribute){
+                const NewIndividualAttribute = {
+                attribute: newAttribute,
+                isSelected: false,            
+                };
+                this.individualsAttributes.push(NewIndividualAttribute)
+                this.userDefineIndividualAttributes.push(NewIndividualAttribute)
+                this.newIndividualAttribute = ''
+                this.newIndividualAttributeType = ''
             },
             changeSelectedSessionType(newSessionType) {
                 this.selectedSessionType = newSessionType;
