@@ -134,7 +134,47 @@
                                     </div>
                                 </v-col>
                             </div>
-                            <div class="pa-5 d-flex justify-center">
+                    <v-row justify-content="flex-end">
+                        <v-col style="margin-left: 10%; margin-bottom: 10%;">
+                            <v-btn @click="dialog = true" color="primary">Add Attribute</v-btn>
+                        </v-col>
+                    </v-row>
+
+                        <!-- Dialog for adding data -->
+                        <v-dialog v-model="dialog" max-width="500">
+                        <v-card>
+                            <div class="subcardHeader text-center">
+                            Add Attribute
+                            </div>
+                            <v-card-text>
+                            <!-- Your form content -->
+                            <v-text-field v-model="newGroupAttribute" label="New Attribute" />
+                            <v-select v-model="newGroupAttributeType" :items="['int', 'boolean', 'string']" label="Type" />
+                            </v-card-text>
+                            <v-card-actions>
+                            <v-btn @click="addNewGroupAttribute(newGroupAttribute)" :disabled="this.newGroupAttribute=='' || this.newGroupAttributeType==''" color="primary">
+                                <v-icon size="3vh" color="white">mdi-plus</v-icon>
+                            </v-btn>
+                            </v-card-actions>
+                            <!-- List of selected group attributes -->
+                            <v-list >
+                            <v-list-item-group v-if="userDefineGroupAttributes.length != 0">
+                                <v-list-item v-for="(groupAttribute, index) in userDefineGroupAttributes" :key="index">
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ groupAttribute.attribute }}</v-list-item-title>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-btn @click="removeUserDefineGroupAttribute(groupAttribute)" color="error" small>
+                                    <v-icon>mdi-minus</v-icon>
+                                    </v-btn>
+                                </v-list-item-action>
+                                </v-list-item>
+                            </v-list-item-group>
+                            <v-alert v-else>No group attributes </v-alert>
+                            </v-list>
+                        </v-card>
+                        </v-dialog>
+                            <!-- <div class="pa-5 d-flex justify-center">
                                 <v-col cols="5">
                                     <div class="d-flex justify-center">
                                         <div >
@@ -154,7 +194,7 @@
                                         </v-btn>
                                     </div>
                                 </v-col>
-                            </div>
+                            </div> -->
                         </v-row>
 
                     </v-card>
@@ -297,6 +337,7 @@
                     { method: 'Method 2', isChecked: false },
                     { method: 'Method 3', isChecked: false }
                 ],
+                dialog: false,
                 newGroupAttribute: '',
                 newGroupAttributeType: '',
                 newIndividualAttribute: '',
@@ -371,6 +412,7 @@
                 this.userDefineIndividualAttributes.push(NewIndividualAttribute)
                 this.newIndividualAttribute = ''
                 this.newIndividualAttributeType = ''
+                
             },
             changeSelectedSessionType(newSessionType) {
                 this.selectedSessionType = newSessionType;
@@ -445,6 +487,17 @@
                     }
                 }
             },
+            removeUserDefineGroupAttribute(attributeToRemove) {
+            const index = this.userDefineGroupAttributes.findIndex(attr => attr.attribute === attributeToRemove.attribute);
+            if (index !== -1) {
+                this.userDefineGroupAttributes.splice(index, 1);
+            }
+            const index2 = this.groupsAttributes.findIndex(attr => attr.attribute === attributeToRemove.attribute);
+            if (index !== -1) {
+                this.groupsAttributes.splice(index2, 1);
+            }
+            },
+
             debug(){
                 console.log(this.limitGroupCapacity);
             }
