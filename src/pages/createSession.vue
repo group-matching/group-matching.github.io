@@ -149,7 +149,20 @@
                             <v-card-text>
                             <!-- Your form content -->
                             <v-text-field v-model="newGroupAttribute" label="New Attribute" />
-                            <v-select v-model="newGroupAttributeType" :items="['int', 'boolean', 'string']" label="Type" />
+                            <!-- <v-select v-model="newGroupAttributeType" :items="['int', 'boolean', 'string']" label="Type" /> -->
+                            <v-select v-model="newGroupAttributeType" :items="['int', 'boolean', 'string']" label="Type" @change="checkForIntType" />
+                            <!-- Fields for minValue, maxValue, and step -->
+                                    <v-row v-if="newGroupAttributeType === 'int'">
+                                    <v-col cols="4">
+                                        <v-text-field v-model="minValue" label="Min Value" type="number" />
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field v-model="maxValue" label="Max Value" type="number" />
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field v-model="step" label="Step" type="number" />
+                                    </v-col>
+                                    </v-row>
                             </v-card-text>
                             <v-card-actions>
                             <v-btn @click="addNewGroupAttribute(newGroupAttribute)" :disabled="this.newGroupAttribute=='' || this.newGroupAttributeType==''" color="primary">
@@ -174,6 +187,7 @@
                             </v-list>
                         </v-card>
                         </v-dialog>
+                        
                             <!-- <div class="pa-5 d-flex justify-center">
                                 <v-col cols="5">
                                     <div class="d-flex justify-center">
@@ -221,24 +235,76 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <v-row justify-content="center" align-content="center" class="pa-2">
-                            <div class="pa-5 d-flex justify-center">
-                                <v-col cols="10">
-                                    <div class="d-flex justify-center">
-                                        <div>
-                                            <v-select v-model="individualsDropdown_currentlySelected" :items="unselectedIndividualOptions" item-text="attribute" :disabled="unselectedIndividualOptions.length == 0" label="Select Attribute" />
+                                <div class="pa-5 d-flex justify-center">
+                                    <v-col cols="10">
+                                        <div class="d-flex justify-center">
+                                            <div>
+                                                <v-select v-model="individualsDropdown_currentlySelected" :items="unselectedIndividualOptions" item-text="attribute" :disabled="unselectedIndividualOptions.length == 0" label="Select Attribute" />
+                                            </div>
                                         </div>
-                                    </div>
-                                </v-col>
-                                <v-col cols="2">
-                                    <div class="pt-5 pb-5 d-flex justify-center">
-                                        <v-btn @click="addIndividualAttribute()" :disabled="unselectedIndividualOptions.length == 0 || individualsDropdown_currentlySelected == null" color="primary">
-                                            <v-icon size="3vh" color="white">mdi-plus</v-icon>
-                                        </v-btn>
-                                    </div>
-                                </v-col>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <div class="pt-5 pb-5 d-flex justify-center">
+                                            <v-btn @click="addIndividualAttribute()" :disabled="unselectedIndividualOptions.length == 0 || individualsDropdown_currentlySelected == null" color="primary">
+                                                <v-icon size="3vh" color="white">mdi-plus</v-icon>
+                                            </v-btn>
+                                        </div>
+                                    </v-col>
+                                </div>
+                                <v-row justify-content="flex-end">
+                                    <v-col style="margin-left: 10%; margin-bottom: 10%;">
+                                        <v-btn @click="dialog_individual = true" color="primary">Add Attribute</v-btn>
+                                    </v-col>
+                                </v-row>
+<!-- Dialog for adding data -->
+                        <v-dialog v-model="dialog_individual" max-width="500">
+                        <v-card>
+                            <div class="subcardHeader text-center">
+                            Add Attribute
                             </div>
-                            <div class="pa-5 d-flex justify-center">
+                            <v-card-text>
+                            <!-- Your form content -->
+                            <v-text-field v-model="newIndividualAttribute" label="New Attribute" />
+                            <v-select v-model="newIndividualAttributeType" :items="['int', 'boolean', 'string']" label="Type" @change="checkForIntType" />
+                            <!-- Fields for minValue, maxValue, and step -->
+                                    <v-row v-if="newIndividualAttributeType === 'int'">
+                                    <v-col cols="4">
+                                        <v-text-field v-model="minValue_invd" label="Min Value" type="number" />
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field v-model="maxValue" label="Max Value" type="number" />
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field v-model="step" label="Step" type="number" />
+                                    </v-col>
+                                    </v-row>
+                            </v-card-text>
+                            <v-card-actions>
+                            <v-btn @click="addNewIndividualAttribute(newIndividualAttribute)" :disabled="this.newIndividualAttribute=='' || this.newIndividualAttributeType==''" color="primary">
+                                <v-icon size="3vh" color="white">mdi-plus</v-icon>
+                            </v-btn>
+                            </v-card-actions>
+                            <!-- List of selected group attributes -->
+                            <v-list >
+                            <v-list-item-group v-if="userDefineIndividualAttributes.length != 0">
+                                <v-list-item v-for="(individualAttribute, index) in userDefineIndividualAttributes" :key="index">
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ individualAttribute.attribute }}</v-list-item-title>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-btn @click="removeIndividualAttribute(individualAttribute)" color="error" small>
+                                    <v-icon>mdi-minus</v-icon>
+                                    </v-btn>
+                                </v-list-item-action>
+                                </v-list-item>
+                            </v-list-item-group>
+                            <v-alert v-else>No group attributes </v-alert>
+                            </v-list>
+                        </v-card>
+                        </v-dialog>
+                            <!-- <div class="pa-5 d-flex justify-center">
                                 <v-col cols="5">
                                     <div class="d-flex justify-center">
                                         <div >
@@ -258,11 +324,12 @@
                                         </v-btn>
                                     </div>
                                 </v-col>
-                            </div>
+                            </div> -->
                         </v-row>
                     </v-card>
                 </v-col>
             </v-row>
+            
             <div class="d-flex justify-center">
                 <v-btn @click="createNewSession()" depressed :disabled="selectedGroupOptions.length == 0 || selectedIndividualOptions.length == 0 || sessionName.length == 0 || sessionName.length == null || this.individualCode == '' || this.groupCode == '' " color="primary" class="ma-10">
                     Create Session
@@ -338,6 +405,7 @@
                     { method: 'Method 3', isChecked: false }
                 ],
                 dialog: false,
+                dialog_individual: false,
                 newGroupAttribute: '',
                 newGroupAttributeType: '',
                 newIndividualAttribute: '',
